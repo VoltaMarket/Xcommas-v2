@@ -375,6 +375,13 @@ namespace XCommas.Net
 
 
 
+
+
+
+
+
+
+
         public XCommasResponse<SmartTrade> CreateSimpleBuy(SimpleTradeData data) => this.CreateSimpleBuyAsync(data).Result;
         public async Task<XCommasResponse<SmartTrade>> CreateSimpleBuyAsync(SimpleTradeData data)
         {
@@ -605,7 +612,6 @@ namespace XCommas.Net
 
     public class OrderResponse
     {
-
         public int id { get; set; }
         public int version { get; set; }
         public Account account { get; set; }
@@ -661,7 +667,7 @@ namespace XCommas.Net
 
         public class Price
         {
-            public double value { get; set; }
+            public string value { get; set; }
             public string value_without_commission { get; set; }
             public bool editable { get; set; }
         }
