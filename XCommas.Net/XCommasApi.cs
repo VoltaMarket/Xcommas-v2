@@ -362,7 +362,14 @@ namespace XCommas.Net
         }
 
 
-
+        public async Task<XCommasResponse<OrderResponse>> SimpleTradeOrderResponse(object data)
+        {
+            var path = $"{BaseAddress}/v2/smart_trades";
+            using (var request = XCommasRequest.Post(path).WithSerializedContent(data).Sign(this))
+            {
+                return await this.GetResponse<OrderResponse>(request).ConfigureAwait(false);
+            }
+        }
 
 
 
@@ -588,5 +595,141 @@ namespace XCommas.Net
         }
 
         #endregion
+
+
     }
+
+
+
+
+
+    public class OrderResponse
+    {
+
+        public int id { get; set; }
+        public int version { get; set; }
+        public Account account { get; set; }
+        public string pair { get; set; }
+        public bool instant { get; set; }
+        public Status status { get; set; }
+        public Leverage leverage { get; set; }
+        public Position position { get; set; }
+        public Take_Profit take_profit { get; set; }
+        public Stop_Loss stop_loss { get; set; }
+        public string note { get; set; }
+        public bool skip_enter_step { get; set; }
+        public Data data { get; set; }
+        public Profit profit { get; set; }
+        public Margin margin { get; set; }
+
+        public class Account
+        {
+            public int id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string market { get; set; }
+            public string link { get; set; }
+        }
+
+        public class Status
+        {
+            public string type { get; set; }
+            public string title { get; set; }
+        }
+
+        public class Leverage
+        {
+            public bool enabled { get; set; }
+        }
+
+        public class Position
+        {
+            public string type { get; set; }
+            public bool editable { get; set; }
+            public Units units { get; set; }
+            public Price price { get; set; }
+            public Total total { get; set; }
+            public string order_type { get; set; }
+            public Status1 status { get; set; }
+        }
+
+        public class Units
+        {
+            public string value { get; set; }
+            public bool editable { get; set; }
+        }
+
+        public class Price
+        {
+            public double value { get; set; }
+            public string value_without_commission { get; set; }
+            public bool editable { get; set; }
+        }
+
+        public class Total
+        {
+            public string value { get; set; }
+        }
+
+        public class Status1
+        {
+            public string type { get; set; }
+            public string title { get; set; }
+        }
+
+        public class Take_Profit
+        {
+            public bool enabled { get; set; }
+            public object[] steps { get; set; }
+        }
+
+        public class Stop_Loss
+        {
+            public bool enabled { get; set; }
+        }
+
+        public class Data
+        {
+            public bool editable { get; set; }
+            public Current_Price current_price { get; set; }
+            public string target_price_type { get; set; }
+            public bool base_order_finished { get; set; }
+            public int missing_funds_to_close { get; set; }
+            public object liquidation_price { get; set; }
+            public object average_enter_price { get; set; }
+            public object average_close_price { get; set; }
+            public object average_enter_price_without_commission { get; set; }
+            public object average_close_price_without_commission { get; set; }
+            public bool panic_sell_available { get; set; }
+            public bool add_funds_available { get; set; }
+            public bool force_start_available { get; set; }
+            public bool force_process_available { get; set; }
+            public bool cancel_available { get; set; }
+            public DateTime created_at { get; set; }
+            public DateTime updated_at { get; set; }
+            public string type { get; set; }
+        }
+
+        public class Current_Price
+        {
+            public string bid { get; set; }
+            public string ask { get; set; }
+            public string last { get; set; }
+        }
+
+        public class Profit
+        {
+            public object volume { get; set; }
+            public object usd { get; set; }
+            public int percent { get; set; }
+            public object roe { get; set; }
+        }
+
+        public class Margin
+        {
+            public object amount { get; set; }
+            public object total { get; set; }
+        }
+    }
+
 }
